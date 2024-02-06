@@ -1,0 +1,24 @@
+Explain what is a Pod
+A Pod is a group of one or more containers, with shared storage and network resources, and a specification for how to run the containers.
+Pods are the smallest deployable units of computing that you can create and manage in Kubernetes.
+
+What are the possible Pod phases?
+Running - The Pod bound to a node and at least one container is running
+Failed/Error - At least one container in the Pod terminated with a failure
+Succeeded - Every container in the Pod terminated with success
+Unknown - Pod's state could not be obtained
+Pending - Containers are not yet running (Perhaps images are still being downloaded or the pod wasn't scheduled yet)
+
+What happens when you run a Pod with kubectl?
+
+Kubectl sends a request to the API server (kube-apiserver) to create the Pod
+1 In the the process the user gets authenticated and the request is being validated.
+etcd is being updated with the data
+2 The Scheduler detects that there is an unassigned Pod by monitoring the API server (kube-apiserver)
+3 The Scheduler chooses a node to assign the Pod to
+etcd is being updated with the information
+4 The Scheduler updates the API server about which node it chose
+5 Kubelet (which also monitors the API server) notices there is a Pod assigned to the same node on which it runs and that Pod isn't running
+6 Kubelet sends request to the container engine (e.g. Docker) to create and run the containers
+7 An update is sent by Kubelet to the API server (notifying it that the Pod is running)
+etcd is being updated by the API server again
